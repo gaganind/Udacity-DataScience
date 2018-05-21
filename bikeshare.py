@@ -16,7 +16,7 @@ def main():
         city=city.lower()
         while city  not in ['chicago','new york','washington']:
             print("Input city wrong, Try again")
-            city = input("2 Would to like to see data for Chicago, New York, Washington: \n").lower()
+            city = input("Would to like to see data for Chicago, New York, Washington: \n").lower()
             
         filtertype=input("would you like to filer by 'month' , 'day' of week , 'both' or not at all  Type 'none' for no filter : \n").lower()    
         while filtertype  not in ['month','day','both','none']:
