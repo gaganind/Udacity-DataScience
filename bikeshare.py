@@ -1,11 +1,12 @@
-#Version 1.1 : Developed by Maverics on 17th May 2018
-#Editted on 21st May 2018
+#Version 1.2.1 : Developed by Maverics on 17th May 2018
+#Updated by Maverics on 21-May @11:48 AM IST
 
 #Importing Libraries
 import pandas as pd
 import datetime as dt
 import numpy as np
 import time as t
+import sys
 
 def main():
     again='yes'
@@ -13,20 +14,33 @@ def main():
         print("Hello! Let's explore some US bikeshare data!")
         city = input("Would to like to see data for Chicago, New York, Washington : \n")
         city=city.lower()
-        filtertype=input("would you like to filer by 'month' , 'day' of week , 'both' or not at all  Type 'none' for no filter : \n")
-    
+        while city  not in ['chicago','new york','washington']:
+            print("Input city wrong, Try again")
+            city = input("2 Would to like to see data for Chicago, New York, Washington: \n").lower()
+            
+        filtertype=input("would you like to filer by 'month' , 'day' of week , 'both' or not at all  Type 'none' for no filter : \n").lower()    
+        while filtertype  not in ['month','day','both','none']:
+            print("Input Filter Type wrong, Try again")
+            filtertype=input("would you like to filer by 'month' , 'day' of week , 'both' or not at all  Type 'none' for no filter : \n").lower()
+
         month=0
         day=0
         
         if filtertype=='month':
-            month=input("which Month: January February March April May or June : \n")
-            month=month.lower()        
+            month=input("which Month: January February March April May or June : \n").lower()
+            while month  not in ['january','february','march','april','may','june']:
+                print("Input month wrong, Try again")
+                month=input("which Month: January February March April May or June : \n").lower()
+            
         elif filtertype=='day':
             day=input("which Day: Please give as integer (e.g. 1=Sunday) :\n")
+                
         elif filtertype=='both':
-            month=input("which Month: January February March April May or June : \n")
-            month=month.lower()
-            day=input("which Day: Please give as integer (e.g. 1= Monday) : \n")
+            month=input("which Month: January February March April May or June : \n").lower()
+            while month  not in ['january','february','march','april','may','june']:
+                print("Input month wrong, Try again")
+                month=input("which Month: January February March April May or June : \n").lower()
+            day=input("which Day: Please give as integer (e.g. 1=Sunday) :\n")
             
         df=filter_data_frame(city,month,day)
         time_stats(df,filtertype)
@@ -35,11 +49,14 @@ def main():
         trip_duration_stats(df)
         dataview=input("\n Want to view few of Data : 'yes or no' \n")
         dataview=dataview.lower()
+        i=5
         while dataview=='yes':
-            print(df.sample(5))
+            print(df.iloc[i-5:i, :])
             dataview=input("\n Want to view few of Data : 'yes or no' \n")
-        again=input("\n Do you want to again \n")
-        again=again.lower()
+            i+=5    
+        again=input("\n Do you want to again 'yes or no '\n").lower()
+        if again=='no':
+            break;
 	
 def filter_data_frame(city,month,day):
     citydata={'chicago':'chicago.csv', 'new york':'new_york_city.csv', 'washington':'washington.csv'}
